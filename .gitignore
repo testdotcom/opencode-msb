@@ -1,0 +1,18 @@
+workspace/**
+!workspace/.opencode
+
+**/.DS_Store
+
+**/.env*
+!.env.sample
+
+microsandbox*.yaml
+!microsandbox.sample.yaml
+
+# Python
+**/.venv/
+**/__pycache__/
+**/*.pyc
+
+# NodeJS
+**/node_modules/

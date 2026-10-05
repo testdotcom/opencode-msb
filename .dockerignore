@@ -1,0 +1,26 @@
+**/.git
+**/.github
+**/.gitignore
+
+**/*compose.y*ml
+**/Dockerfile*
+
+**/LICENSE
+**/README.md
+
+workspace/
+**/.DS_Store
+
+**/.env*
+!.env.sample
+
+microsandbox*.yaml
+!microsandbox.sample.yaml
+
+# Python
+**/.venv/
+**/__pycache__/
+**/*.pyc
+
+# NodeJS
+**/node_modules/
