@@ -1,5 +1,4 @@
-workspace/**
-!workspace/.opencode
+workspace/*
 
 **/.DS_Store
 
