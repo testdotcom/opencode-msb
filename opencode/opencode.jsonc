@@ -1,13 +1,14 @@
 {
   "$schema": "https://opencode.ai/config.json",
+  "plugins": ["@firecrawl/opencode"],
   "websearch": {
-    "provider": "firecrawl",
+    "provider": "firecrawl"
   },
   "permissions": [
     {
       "action": "websearch",
       "resource": "*",
-      "effect": "ask",
+      "effect": "ask"
     },
   ],
 }
