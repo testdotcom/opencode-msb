@@ -11,5 +11,5 @@ target "build" {
     OPENCODE_VERSION = OPENCODE_VERSION
   }
   platforms = ["linux/amd64"]
-  network = "host"
+  #network = "host"
 }
