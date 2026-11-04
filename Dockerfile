@@ -1,5 +1,6 @@
 # syntax=docker/dockerfile:1
-FROM ghcr.io/anomalyco/opencode:2.0.24
+ARG OPENCODE_VERSION=
+FROM ghcr.io/anomalyco/opencode:${OPENCODE_VERSION}
 
 RUN apk add --no-cache \
 	neovim \
