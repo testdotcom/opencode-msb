@@ -1,4 +1,5 @@
 variable "OPENCODE_VERSION" {
+  default = "latest"
 }
 
 target "docker-metadata-action" {}

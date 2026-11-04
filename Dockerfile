@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1
-ARG OPENCODE_VERSION=
+ARG OPENCODE_VERSION=latest
 FROM ghcr.io/anomalyco/opencode:${OPENCODE_VERSION}
 
 RUN apk add --no-cache \

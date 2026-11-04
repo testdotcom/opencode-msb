@@ -26,7 +26,7 @@ jobs:
         uses: docker/metadata-action@v6.2.0
         id: meta
         with:
-          images: testdotcom/opencode-msb
+          images: ghcr.io/testdotcom/opencode-msb
           tags: |
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
@@ -35,11 +35,12 @@ jobs:
       - name: Build and push
         uses: docker/bake-action@v7.5.0
         env:
-          OPENCODE_VERSION: ${{ inputs.version }}
+          OPENCODE_VERSION: ${{ steps.meta.outputs.version }}
         with:
           push: true
           source: "{{defaultContext}}"
           files: |
             ./docker-bake.hcl
             cwd://${{ steps.meta.outputs.bake-file-tags }}
+            cwd://${{ steps.meta.outputs.bake-file-labels }}
           targets: build
