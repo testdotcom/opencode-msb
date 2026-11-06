@@ -19,7 +19,7 @@ msb doctor
 3. Export the container image name to run. The provided microsandbox configuration assumes an Ubuntu base image:
 
 ```bash
-docker build -t opencode-msb:latest .
+docker build --build-arg=OPENCODE_VERSION=2.2.5 -t opencode-msb:latest .
 ```
 
 4. Export required environment variables:
