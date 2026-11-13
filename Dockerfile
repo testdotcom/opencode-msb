@@ -36,8 +36,8 @@ ENV NPM_CONFIG_PREFIX=/home/opencode/.local
 ENV PATH="${XDG_BIN_HOME}:${PATH}"
 
 RUN set -eux; \
-    npm install -g npm@latest firecrawl-cli@latest; \
-    npm cache clean
+    npm install --omit=dev -g npm@latest firecrawl-cli@latest; \
+    npm cache clean --force
 
 RUN set -eux; \
     cd /tmp; \
