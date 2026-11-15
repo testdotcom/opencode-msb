@@ -15,7 +15,7 @@ jobs:
           persist-credentials: false
 
       - name: Run pre-commit hook
-        uses: j178/prek-action@v3.2.0
+        uses: j178/prek-action@v3.1.0
 
   lockfile:
     runs-on: ubuntu-slim
