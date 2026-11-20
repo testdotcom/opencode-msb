@@ -1,10 +1,12 @@
 # syntax=docker/dockerfile:1
-ARG OPENCODE_VERSION=latest
-FROM ghcr.io/anomalyco/opencode:${OPENCODE_VERSION}
+FROM fedora:45
 
+ARG OPENCODE_VERSION=latest
 ARG UID=1000
 
-RUN apk add --no-cache \
+RUN --mount=type=cache,target=/var/cache/libdnf5,sharing=locked \
+    dnf upgrade -y --setopt=keepcache=True \
+    && dnf install -y --setopt=install_weak_deps=False --setopt=keepcache=True \
 	  neovim \
 	  git \
 	  curl \
@@ -12,37 +14,40 @@ RUN apk add --no-cache \
 	  tar \
 	  gzip \
 	  ripgrep \
-	  fd \
+	  fd-find \
+    nodejs24 \
+    nodejs24-npm \
 	  fzf \
-	  build-base \
-	  nodejs \
-	  npm \
-	  python3 \
 	  jq \
 	  shellcheck \
 	  ca-certificates \
-	  drill \
+	  ldns-utils \
     zsh
 
-RUN addgroup -g ${UID} opencode \
-    && adduser -D -u ${UID} -G opencode -s /bin/zsh opencode
+RUN groupadd --gid ${UID} opencode \
+    && useradd --uid ${UID} --gid ${UID} --create-home --shell /bin/zsh opencode
 
 USER opencode
 WORKDIR /home/opencode
 
 ENV XDG_BIN_HOME=/home/opencode/.local/bin
-ENV XDG_CONFIG_HOME=/home/opencode/.config
 ENV NPM_CONFIG_PREFIX=/home/opencode/.local
-ENV PATH="${XDG_BIN_HOME}:${PATH}"
+ENV PATH="/home/opencode/.opencode/bin:${XDG_BIN_HOME}:${PATH}"
+
+RUN --mount=type=cache,target=/home/opencode/.npm,uid=${UID},gid=${UID} \
+    set -eux; \
+    npm install -g \
+    firecrawl-cli@latest \
+    slopsift@latest
 
 RUN set -eux; \
-    npm install --omit=dev -g npm@latest firecrawl-cli@latest; \
-    npm cache clean --force
+    curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh -o /tmp/zsh-install.sh; \
+    sh /tmp/zsh-install.sh --unattended; \
+    rm /tmp/zsh-install.sh
 
 RUN set -eux; \
-    cd /tmp; \
-    curl -fsSLO https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh; \
-    sh install.sh --unattended; \
-    rm install.sh
+    curl -fsSL https://opencode.ai/v2/install -o /tmp/opencode-install.sh; \
+    sh /tmp/opencode-install.sh ${OPENCODE_VERSION:+--version "$OPENCODE_VERSION"}; \
+    rm /tmp/opencode-install.sh
 
-ENTRYPOINT ["/bin/zsh"]
+ENTRYPOINT ["zsh"]
