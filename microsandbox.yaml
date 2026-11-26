@@ -1,0 +1,42 @@
+image: "${OPENCODE_SANDBOX_IMAGE}"
+cpus: 4
+memory: "16G"
+workdir: "/home/opencode/workspace"
+shell: "/bin/zsh"
+user: "opencode"
+env:
+  HOME: "/home/opencode"
+  TERM: xterm-256color
+  COLORTERM: truecolor
+  GIT_AUTHOR_NAME: "${GIT_USER_NAME}"
+  GIT_AUTHOR_EMAIL: "${GIT_USER_EMAIL}"
+  GIT_COMMITTER_NAME: "${GIT_USER_NAME}"
+  GIT_COMMITTER_EMAIL: "${GIT_USER_EMAIL}"
+mounts:
+  - "workspace:/home/opencode/workspace"
+  - "opencode:/home/opencode/.config/opencode"
+network:
+  policy: public
+  allow:
+    - registry.npmjs.org
+    - models.opencode.ai
+    - opencode.ai
+    - openrouter.ai
+    - raw.githubusercontent.com
+    - github.com
+    - api.github.com
+    - api.firecrawl.dev
+    - pypi.org
+    - files.pythonhosted.org
+secrets:
+  GITHUB_TOKEN:
+    allow:
+      - github.com
+      - api.github.com
+  OPENROUTER_API_KEY:
+    allow:
+      - openrouter.ai
+  FIRECRAWL_API_KEY:
+    allow:
+      - api.firecrawl.dev
+cmd: ["-l"]
